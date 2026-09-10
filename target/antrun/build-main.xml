@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <path id="gui-form-sources">
+      <pathelement location="C:\Users\minhdb3\Documents\Student_management\Student_management_system/src/main/java" />
+    </path>
+    <taskdef classname="com.intellij.ant.Javac2" name="javac2" classpathref="maven.plugin.classpath" />
+    <javac2 includeantruntime="false" destdir="C:\Users\minhdb3\Documents\Student_management\Student_management_system\target\classes" source="21" target="21">
+      <src refid="gui-form-sources" />
+      <classpath>
+        <path refid="maven.compile.classpath" />
+        <path refid="maven.plugin.classpath" />
+      </classpath>
+    </javac2>
+  </target>
+</project>
