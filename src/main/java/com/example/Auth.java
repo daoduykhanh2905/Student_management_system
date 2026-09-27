@@ -62,6 +62,10 @@ public class Auth {
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
                 super.mouseClicked(e);
+//                while(!register.isDone()){
+//
+//                }
+//                frame.dispose();
             }
         });
     }
