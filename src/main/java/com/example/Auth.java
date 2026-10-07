@@ -1,5 +1,4 @@
 package com.example;
-import com.example.student.Register;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;

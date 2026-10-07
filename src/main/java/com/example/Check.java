@@ -24,7 +24,6 @@ public class Check {
         }
         if(accCount >= acc.length){return false;}
         acc[accCount++] = new Account(username, password,role);
-        accCount++;
         return true;
     }
 

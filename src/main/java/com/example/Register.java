@@ -1,4 +1,4 @@
-package com.example.student;
+package com.example;
 import com.example.UserRole;
 import javax.swing.*;
 import java.awt.*;
