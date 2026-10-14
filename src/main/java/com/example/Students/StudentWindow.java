@@ -1,29 +1,30 @@
 package com.example.Students;
-import com.example.Students.Student_Infor;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class StudentWindow {
 
+    private TableRowSorter<DefaultTableModel> sorter;
     private JTable Student_information;
     private JButton edit;
     private JPanel panel1;
     private JButton searchButton;
-
-
     private JTextField SearchText;
     private JTextField textField2;
     private JButton editButton;
     private JButton deleteButton;
     private JButton viewButton;
     private JButton addButton;
+    private JComboBox<SearchType> selectType;
 
     public JTextField getSearchText() {
         return SearchText;
@@ -44,30 +45,52 @@ public class StudentWindow {
 
 
     public StudentWindow() {
-//        Student_information.setModel(model);
-//        searchButton.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//
-//                super.mouseClicked(e);
-//            }
-//        });
-        model = new DefaultTableModel(new String[]{"ID", "Name", "Department", "Status"}, 0);
+        model = new DefaultTableModel(new String[]{"ID", "Name", "Department", "Status"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         Student_information.setModel(model);
 //        model.addRow(new Object[]{"0001", "Khanh", "abcd", "  "});
 //        model.addRow(new Object[]{"0002", "Minh", "xyzt", "  "});
-
+        selectType.addItem(SearchType.ID);
+        selectType.addItem(SearchType.Name);
+        selectType.addItem(SearchType.Department);
+        selectType.addItem(SearchType.Status);
         searchButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+
                 String search = SearchText.getText();
+                SearchType select = (SearchType) selectType.getSelectedItem();
                 model.setRowCount(0);
                 for (int i = 0; i < ifmCount; i++) {
                     Student_Infor student = ifm[i];
-                    if(student.getID().equals(search) || student.getUserName().equals(search) || student.getDepartment().equals(search) || student.getStatus().equals(search)) {
-                        model.addRow(new Object[]{ student.getID(),student.getUserName(), student.getDepartment(), student.getStatus()});
+                    if (ifm[i] != null) {
+                        boolean found = false;
+                        switch (select) {
+                            case ID:
+                                found = ifm[i].getID().toLowerCase().contains(search.toLowerCase());
+                                break;
+                            case Name:
+                                found = ifm[i].getUserName().toLowerCase().contains(search.toLowerCase());
+                                break;
+                            case Department:
+                                found = ifm[i].getDepartment().toLowerCase().contains(search.toLowerCase());
+                                break;
+                            case Status:
+                                found = ifm[i].getStatus().toLowerCase().contains(search.toLowerCase());
+                                break;
+                        }
+                        if (found) {
+                            model.addRow(new Object[]{ifm[i].getID(), ifm[i].getUserName(), ifm[i].getDepartment(), ifm[i].getStatus()});
+                        }
                     }
                 }
+                if (model.getRowCount() == 0)
+                    JOptionPane.showMessageDialog(null, "No student found");
                 super.mouseClicked(e);
             }
         });
@@ -79,26 +102,31 @@ public class StudentWindow {
                     JOptionPane.showMessageDialog(null, "Please select a student.");
                     return;
                 }
-                String id = JOptionPane.showInputDialog(null, "Enter new ID:");
+                String oldID = model.getValueAt(row, 0).toString();
+                String oldName = model.getValueAt(row, 1).toString();
+                String oldDepartment = model.getValueAt(row, 2).toString();
+                String oldStatus = model.getValueAt(row, 3).toString();
+                String id = JOptionPane.showInputDialog(null, "Enter new ID:", oldID);
                 if (id == null) {
-                    JOptionPane.showMessageDialog(null,"This field is empty! Please enter.");
+                    JOptionPane.showMessageDialog(null, "This field is empty! Please enter.");
                     return;
                 }
-                String name = JOptionPane.showInputDialog(null, "Enter new Name:");
+                String name = JOptionPane.showInputDialog(null, "Enter new Name:", oldName);
                 if (name == null) {
-                    JOptionPane.showMessageDialog(null,"This field is empty! Please enter.");
+                    JOptionPane.showMessageDialog(null, "This field is empty! Please enter.");
                     return;
                 }
-                String department = JOptionPane.showInputDialog(null, "Enter new Department:");
+                String department = JOptionPane.showInputDialog(null, "Enter new Department:", oldDepartment);
                 if (department == null) {
-                    JOptionPane.showMessageDialog(null,"This field is empty! Please enter.");
+                    JOptionPane.showMessageDialog(null, "This field is empty! Please enter.");
                     return;
                 }
-                String status = JOptionPane.showInputDialog(null, "Enter new Status:");
+                String status = JOptionPane.showInputDialog(null, "Enter new Status:", oldStatus);
                 if (status == null) {
-                    JOptionPane.showMessageDialog(null,"This field is empty! Please enter.");
+                    JOptionPane.showMessageDialog(null, "This field is empty! Please enter.");
                     return;
                 }
+                ifm[row] = new Student_Infor(name, id, department, status);
                 model.setValueAt(id, row, 0);
                 model.setValueAt(name, row, 1);
                 model.setValueAt(department, row, 2);
@@ -128,6 +156,17 @@ public class StudentWindow {
         viewButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                DefaultTableModel model = (DefaultTableModel) Student_information.getModel();
+                model.setRowCount(0);
+                for (int i = 0; i < ifmCount; i++) {
+                    if (ifm[i] != null) {
+                        model.addRow(new Object[]{ifm[i].getID(), ifm[i].getUserName(), ifm[i].getDepartment(), ifm[i].getStatus()});
+                    }
+                }
+                sorter.setRowFilter(null);
+                System.out.println("view complete");
+                Student_information.repaint();
+
                 super.mouseClicked(e);
             }
         });
@@ -150,6 +189,7 @@ public class StudentWindow {
             }
         });
     }
+
 
     public Student_Infor Searchifm(String userName, String ID, String department, String status) {
         for (int i = 0; i < ifmCount; i++) {
@@ -179,16 +219,16 @@ public class StudentWindow {
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(4, 5, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(4, 6, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel1.add(scrollPane1, new GridConstraints(2, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel1.add(scrollPane1, new GridConstraints(2, 0, 1, 6, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         Student_information = new JTable();
         scrollPane1.setViewportView(Student_information);
         SearchText = new JTextField();
-        panel1.add(SearchText, new GridConstraints(1, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel1.add(SearchText, new GridConstraints(1, 2, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         textField2 = new JTextField();
-        panel1.add(textField2, new GridConstraints(0, 0, 1, 5, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        panel1.add(textField2, new GridConstraints(0, 0, 1, 6, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         searchButton = new JButton();
         searchButton.setText("Search");
         panel1.add(searchButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -197,12 +237,14 @@ public class StudentWindow {
         panel1.add(editButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deleteButton = new JButton();
         deleteButton.setText("Delete");
-        panel1.add(deleteButton, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(deleteButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         viewButton = new JButton();
         viewButton.setText("View");
-        panel1.add(viewButton, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(viewButton, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         addButton = new JButton();
         addButton.setText("Add");
-        panel1.add(addButton, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(addButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectType = new JComboBox();
+        panel1.add(selectType, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 }
