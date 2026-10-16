@@ -163,7 +163,6 @@ public class StudentWindow {
                         model.addRow(new Object[]{ifm[i].getID(), ifm[i].getUserName(), ifm[i].getDepartment(), ifm[i].getStatus()});
                     }
                 }
-                sorter.setRowFilter(null);
                 System.out.println("view complete");
                 Student_information.repaint();
 
