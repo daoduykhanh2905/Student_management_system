@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="e78e7" layout-manager="GridLayoutManager" row-count="11" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="e78e7" binding="MenuPanel" layout-manager="GridLayoutManager" row-count="11" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -16,15 +16,15 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="64a0f" class="javax.swing.JButton" binding="Dashboard">
+          <component id="64a0f" class="javax.swing.JButton" binding="dashboard">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Dashboard"/>
             </properties>
           </component>
-          <grid id="6d70e" binding="Content" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="6d70e" binding="contentPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="1" row-span="11" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -33,68 +33,68 @@
             <border type="none"/>
             <children/>
           </grid>
-          <component id="f8520" class="javax.swing.JButton" binding="Logout">
+          <component id="f8520" class="javax.swing.JButton" binding="logout">
             <constraints>
               <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Logout"/>
             </properties>
           </component>
-          <component id="6b982" class="javax.swing.JButton" binding="Courses">
+          <component id="6b982" class="javax.swing.JButton" binding="courses">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Courses"/>
             </properties>
           </component>
-          <component id="6eda5" class="javax.swing.JButton" binding="Students">
+          <component id="6eda5" class="javax.swing.JButton" binding="students">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Students"/>
             </properties>
           </component>
-          <component id="8a93" class="javax.swing.JButton" binding="Attendance">
+          <component id="8a93" class="javax.swing.JButton" binding="attendance">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Attendance"/>
             </properties>
           </component>
-          <component id="9140d" class="javax.swing.JButton" binding="Classes">
+          <component id="9140d" class="javax.swing.JButton" binding="classes">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Classes"/>
             </properties>
           </component>
-          <component id="36d21" class="javax.swing.JButton" binding="Reports">
+          <component id="36d21" class="javax.swing.JButton" binding="reports">
             <constraints>
               <grid row="7" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Reports"/>
             </properties>
           </component>
-          <component id="73793" class="javax.swing.JButton" binding="Teachers">
+          <component id="73793" class="javax.swing.JButton" binding="teachers">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Teachers"/>
             </properties>
           </component>
-          <component id="bf30c" class="javax.swing.JButton" binding="Grades">
+          <component id="bf30c" class="javax.swing.JButton" binding="grades">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Button"/>
+              <text value="Grades"/>
             </properties>
           </component>
         </children>
